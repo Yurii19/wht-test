@@ -7,6 +7,8 @@ import { MainComponent } from './components/main/main.component';
 import { NgxsModule } from '@ngxs/store';
 import { CatsService } from './services/cats.service';
 
+import {  HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +17,8 @@ import { CatsService } from './services/cats.service';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot()
+    NgxsModule.forRoot(),
+    HttpClientModule,
   ],
   providers: [CatsService],
   bootstrap: [AppComponent]
