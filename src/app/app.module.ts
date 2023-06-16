@@ -7,20 +7,19 @@ import { MainComponent } from './components/main/main.component';
 import { NgxsModule } from '@ngxs/store';
 import { CatsService } from './services/cats.service';
 
-import {  HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainComponent
-  ],
+  declarations: [AppComponent, MainComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     NgxsModule.forRoot(),
     HttpClientModule,
+    MatButtonModule,
   ],
   providers: [CatsService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
