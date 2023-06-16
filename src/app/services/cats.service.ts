@@ -17,4 +17,8 @@ export class CatsService {
       this.BASE_URL + '/images/search?limit=10' + '&api_key=' + this.API_KEY
     );
   }
+
+  fetchBreeds(): Observable<any> {
+    return this.http.get(`${this.BASE_URL}/breeds`);
+  }
 }

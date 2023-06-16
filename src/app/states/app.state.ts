@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CatsService } from '../services/cats.service';
 import { map, tap } from 'rxjs/operators';
-import { GetCats } from '../actions/app.actions';
+import { GetCats, GetBreeds } from '../actions/app.actions';
 
 export class CatsStateModel {
   cats: any;
@@ -43,6 +43,20 @@ export class AppState {
         ctx.setState({
           ...state,
           cats: returnData, //here the data coming from the API will get assigned to the users variable inside the appstate
+        });
+      })
+    );
+  }
+
+  @Action(GetBreeds)
+  getBreedsFromState(ctx: StateContext<CatsStateModel>) {
+    return this.catsService.fetchBreeds().pipe(
+      tap((returnData) => {
+        const state = ctx.getState();
+
+        ctx.setState({
+          ...state,
+          breeds:[...state.breeds, ...returnData], //here the data coming from the API will get assigned to the users variable inside the appstate
         });
       })
     );
