@@ -6,6 +6,7 @@ import { GetCats } from '../actions/app.actions';
 
 export class CatsStateModel {
   cats: any;
+  breeds: any;
 }
 
 @State<CatsStateModel>({
@@ -16,6 +17,7 @@ export class CatsStateModel {
         url: 'https://icons.iconarchive.com/icons/iconsmind/outline/256/Cat-icon.png',
       },
     ],
+    breeds: [{ name: 'All' }],
   },
 })
 @Injectable()
@@ -23,8 +25,13 @@ export class AppState {
   constructor(private catsService: CatsService) {}
 
   @Selector()
-  static selectStateData(state: CatsStateModel) {
+  static selectStateCats(state: CatsStateModel) {
     return state.cats;
+  }
+
+  @Selector()
+  static selectStateBreeds(state: CatsStateModel) {
+    return state.breeds;
   }
 
   @Action(GetCats)

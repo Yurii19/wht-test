@@ -12,9 +12,10 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  @Select(AppState.selectStateData) cats$: Observable<any> | undefined;
+  @Select(AppState.selectStateCats) cats$: Observable<any> | undefined;
+  @Select(AppState.selectStateBreeds) breeds$: Observable<any> | undefined;
   cats: any = [];
-  breeds$: Observable<any> = new Observable();
+ // breeds$: Observable<any> = new Observable();
   filters: FormGroup = new FormGroup({
     limit: new FormControl(10),
     breeds: new FormControl(),
