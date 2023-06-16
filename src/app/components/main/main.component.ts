@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { Observable, Subject, of } from 'rxjs';
-import { GetBreeds, GetCats } from 'src/app/actions/app.actions';
+import { Observable, Subject, debounceTime, of, takeUntil } from 'rxjs';
+import { GetBreeds, GetCats, GetCatsWithFilter } from 'src/app/actions/app.actions';
 import { CatsService } from 'src/app/services/cats.service';
 import { AppState } from 'src/app/states/app.state';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -11,7 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   @Select(AppState.selectStateCats) cats$: Observable<any> | undefined;
   @Select(AppState.selectStateBreeds) breeds$: Observable<any> | undefined;
   cats: any = [];
@@ -35,10 +35,18 @@ export class MainComponent implements OnInit {
 
     this.store.dispatch(new GetCats());
     this.store.dispatch(new GetBreeds());
+
+    this.filters?.valueChanges
+      .pipe(takeUntil(this.destroy$), debounceTime(500))
+      .subscribe(() => {
+        // this.getCatsBySelect();
+      });
   }
   getCats() {
-    //   this.catsService.fetchCats().subscribe((d) => {
-    //     console.log(d);
-    //   });
+    this.store.dispatch(new GetCatsWithFilter(3));
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next(void 0);
+    this.destroy$.unsubscribe();
   }
 }

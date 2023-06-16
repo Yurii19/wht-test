@@ -28,6 +28,7 @@
     </mat-form-field>
   </form>
 </mat-expansion-panel>
+<button (click)="getCats()">get</button>
 
 <section class="section">
   <mat-card class="card" *ngFor="let cat of cats$ | async">

@@ -6,15 +6,20 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root',
 })
 export class CatsService {
-  API_KEY =
+  private API_KEY =
     'live_cnlTmK2t9iMi864zh29DVkXA8FoY3CIE0l2gDfEn5nXCvoYIL0ah7Sbon5FJAPW3';
-  BASE_URL = 'https://api.thecatapi.com/v1';
+  private BASE_URL = 'https://api.thecatapi.com/v1';
 
   constructor(private http: HttpClient) {}
 
   fetchCats(): Observable<any> {
     return this.http.get(
       this.BASE_URL + '/images/search?limit=10' + '&api_key=' + this.API_KEY
+    );
+  }
+  fetchCatsWithFilter(payload: any): Observable<any> {
+    return this.http.get(
+      this.BASE_URL + '/images/search?limit=5' + '&api_key=' + this.API_KEY
     );
   }
 

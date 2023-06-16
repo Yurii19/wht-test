@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CatsService } from '../services/cats.service';
 import { map, tap } from 'rxjs/operators';
-import { GetCats, GetBreeds } from '../actions/app.actions';
+import { GetCats, GetBreeds, GetCatsWithFilter } from '../actions/app.actions';
 
 export class CatsStateModel {
   cats: any;
@@ -46,6 +46,21 @@ export class AppState {
         });
       })
     );
+  }
+
+  @Action(GetCatsWithFilter)
+  updateDataOfState(ctx: StateContext<CatsStateModel>, { payload }: GetCatsWithFilter) {
+      return this.catsService.fetchCatsWithFilter('payload').pipe(tap(returnData => {
+          const state=ctx.getState();
+
+          // const catsList = [...state.cats];
+          // userList[i]=payload;
+
+          ctx.setState({
+              ...state,
+              cats: [ ...returnData],
+          });
+      }))
   }
 
   @Action(GetBreeds)
