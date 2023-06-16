@@ -1,2 +1,6 @@
 <h3>Main works</h3>
 <button mat-stroked-button color="accent" (click)="getCats()">Accent</button>
+<mat-card class="card" *ngFor="let cat of cats$ | async">
+  <mat-card-content><mat-icon fontIcon="image"></mat-icon> </mat-card-content>
+  <img src="{{ cat.url }}" alt="cat image" width="200" />
+</mat-card>

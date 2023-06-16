@@ -10,18 +10,17 @@ import { AppState } from 'src/app/states/app.state';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  
-  @Select(AppState.selectStateData) cats$: Observable<any> | undefined ;
+  @Select(AppState.selectStateData) cats$: Observable<any> | undefined;
+  cats: any = [];
 
   constructor(private catsService: CatsService, private store: Store) {
     //this.cats$ =
   }
 
   ngOnInit(): void {
-    // this.cats$ = this.store.select('cats');
-    // this.cats$.subscribe(d =>{
-    //   console.log(d)
-    // })
+    this.cats$?.subscribe((d) => {
+      this.cats = d;
+    });
   }
   getCats() {
     this.catsService.fetchCats().subscribe((d) => {

@@ -10,6 +10,8 @@ import { CatsService } from './services/cats.service';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { AppState } from './states/app.state';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
@@ -19,6 +21,8 @@ import { AppState } from './states/app.state';
     NgxsModule.forRoot([AppState]),
     HttpClientModule,
     MatButtonModule,
+    MatCardModule,
+    MatIconModule,
   ],
   providers: [CatsService],
   bootstrap: [AppComponent],
