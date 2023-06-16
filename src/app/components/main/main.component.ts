@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { GetCats } from 'src/app/actions/app.actions';
 import { CatsService } from 'src/app/services/cats.service';
 import { AppState } from 'src/app/states/app.state';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -13,6 +14,13 @@ import { AppState } from 'src/app/states/app.state';
 export class MainComponent implements OnInit {
   @Select(AppState.selectStateData) cats$: Observable<any> | undefined;
   cats: any = [];
+  breeds$: Observable<any> = new Observable();
+  filters: FormGroup = new FormGroup({
+    limit: new FormControl(10),
+    breeds: new FormControl(),
+  });
+
+  destroy$: Subject<void> = new Subject<any>();
 
   constructor(private catsService: CatsService, private store: Store) {
     //this.cats$ =
@@ -20,7 +28,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.cats$?.subscribe((d) => {
-      console.log(d)
+      console.log(d);
       this.cats = d;
     });
 
