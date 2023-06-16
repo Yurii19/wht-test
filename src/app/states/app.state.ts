@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CatsService } from '../services/cats.service';
 import { map, tap } from 'rxjs/operators';
 import { GetCats, GetBreeds, GetCatsWithFilter } from '../actions/app.actions';
+import { IBreed } from '../types';
 
 export class CatsStateModel {
   cats: any;
@@ -49,29 +50,36 @@ export class AppState {
   }
 
   @Action(GetCatsWithFilter)
-  updateDataOfState(ctx: StateContext<CatsStateModel>, { payload }: GetCatsWithFilter) {
-      return this.catsService.fetchCatsWithFilter('payload').pipe(tap(returnData => {
-          const state=ctx.getState();
+  updateDataOfState(
+    ctx: StateContext<CatsStateModel>,
+    { payload }: GetCatsWithFilter
+  ) {
+    return this.catsService.fetchCatsWithFilter(payload).pipe(
+      tap((returnData) => {
+        const state = ctx.getState();
 
-          // const catsList = [...state.cats];
-          // userList[i]=payload;
+        // const catsList = [...state.cats];
+        // userList[i]=payload;
 
-          ctx.setState({
-              ...state,
-              cats: [ ...returnData],
-          });
-      }))
+        ctx.setState({
+          ...state,
+          cats: [...returnData],
+        });
+      })
+    );
   }
 
   @Action(GetBreeds)
   getBreedsFromState(ctx: StateContext<CatsStateModel>) {
     return this.catsService.fetchBreeds().pipe(
+      map((d) => d.map((el: any) => ({ id: el.id, name: el.name }))),
       tap((returnData) => {
+        //console.log('--------', returnData);
         const state = ctx.getState();
 
         ctx.setState({
           ...state,
-          breeds:[...state.breeds, ...returnData], //here the data coming from the API will get assigned to the users variable inside the appstate
+          breeds: [...state.breeds, ...returnData], //here the data coming from the API will get assigned to the users variable inside the appstate
         });
       })
     );

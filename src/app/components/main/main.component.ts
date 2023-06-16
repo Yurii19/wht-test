@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable, Subject, debounceTime, of, takeUntil } from 'rxjs';
-import { GetBreeds, GetCats, GetCatsWithFilter } from 'src/app/actions/app.actions';
+import {
+  GetBreeds,
+  GetCats,
+  GetCatsWithFilter,
+} from 'src/app/actions/app.actions';
 import { CatsService } from 'src/app/services/cats.service';
 import { AppState } from 'src/app/states/app.state';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -18,7 +22,7 @@ export class MainComponent implements OnInit, OnDestroy {
   // breeds$: Observable<any> = new Observable();
   filters: FormGroup = new FormGroup({
     limit: new FormControl(10),
-    breeds: new FormControl(),
+    breeds: new FormControl({ id: 0, name: 'All' }),
   });
 
   destroy$: Subject<void> = new Subject<any>();
@@ -38,12 +42,20 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.filters?.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(500))
-      .subscribe(() => {
-        // this.getCatsBySelect();
+      .subscribe((d) => {
+        const { breeds, id } = d.breeds;
+        // let currentFilter = {limit: d.limit, breeds: }
+        this.store.dispatch(
+          new GetCatsWithFilter({
+            limit: d.limit,
+            breeds: { id: d.breeds.id, name: d.breeds.name },
+          })
+        );
+        console.log('Filters is touched !', d);
       });
   }
   getCats() {
-    this.store.dispatch(new GetCatsWithFilter(3));
+    // this.store.dispatch(new GetCatsWithFilter({ limit: 3 }));
   }
   ngOnDestroy(): void {
     this.destroy$.next(void 0);

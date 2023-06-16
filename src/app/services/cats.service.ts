@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { IFilter } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,9 @@ export class CatsService {
       this.BASE_URL + '/images/search?limit=10' + '&api_key=' + this.API_KEY
     );
   }
-  fetchCatsWithFilter(payload: any): Observable<any> {
+  fetchCatsWithFilter(payload: IFilter): Observable<any> {
     return this.http.get(
-      this.BASE_URL + '/images/search?limit=5' + '&api_key=' + this.API_KEY
+      `${this.BASE_URL}/images/search?limit=${payload.limit}&api_key= ${this.API_KEY}`
     );
   }
 
