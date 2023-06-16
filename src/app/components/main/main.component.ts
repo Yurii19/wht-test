@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
+import { GetCats } from 'src/app/actions/app.actions';
 import { CatsService } from 'src/app/services/cats.service';
 import { AppState } from 'src/app/states/app.state';
 
@@ -19,12 +20,15 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.cats$?.subscribe((d) => {
+      console.log(d)
       this.cats = d;
     });
+
+    this.store.dispatch(new GetCats());
   }
   getCats() {
-    this.catsService.fetchCats().subscribe((d) => {
-      console.log(d);
-    });
+    //   this.catsService.fetchCats().subscribe((d) => {
+    //     console.log(d);
+    //   });
   }
 }
