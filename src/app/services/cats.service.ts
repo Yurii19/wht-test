@@ -19,9 +19,12 @@ export class CatsService {
     );
   }
   fetchCatsWithFilter(payload: IFilter): Observable<any> {
-    return this.http.get(
-      `${this.BASE_URL}/images/search?limit=${payload.limit}&api_key= ${this.API_KEY}`
-    );
+    const breedQuery =
+      payload.breeds && payload.breeds.id !== 'All'
+        ? `breed_ids=${payload.breeds.id}&`
+        : '';
+    const queryString = `${this.BASE_URL}/images/search?${breedQuery}limit=${payload.limit}&api_key= ${this.API_KEY}`;
+    return this.http.get(queryString);
   }
 
   fetchBreeds(): Observable<any> {
