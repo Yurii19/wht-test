@@ -9,13 +9,14 @@ import { CatsService } from './services/cats.service';
 
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
+import { AppState } from './states/app.state';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgxsModule.forRoot(),
+    NgxsModule.forRoot([AppState]),
     HttpClientModule,
     MatButtonModule,
   ],
