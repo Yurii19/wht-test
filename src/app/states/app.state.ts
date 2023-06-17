@@ -18,7 +18,7 @@ export class CatsStateModel {
         url: 'https://icons.iconarchive.com/icons/iconsmind/outline/256/Cat-icon.png',
       },
     ],
-    breeds: [{ id: '', name: 'All' }],
+    breeds: [{ id: 'all', name: 'All' }],
   },
 })
 @Injectable()

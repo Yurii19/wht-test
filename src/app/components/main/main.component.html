@@ -6,7 +6,7 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <form action="" [formGroup]="filters">
+  <form class="action" action="" [formGroup]="filters">
     <mat-form-field appearance="fill" class="control">
       <mat-label>Number</mat-label>
       <input
@@ -26,6 +26,11 @@
         }}</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <button class="control" mat-fab extended color="blue">
+      <mat-icon>search</mat-icon>
+      Filter
+    </button>
   </form>
 </mat-expansion-panel>
 
