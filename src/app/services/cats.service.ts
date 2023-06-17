@@ -20,7 +20,7 @@ export class CatsService {
   }
   fetchCatsWithFilter(payload: IFilter): Observable<any> {
     const breedQuery =
-      payload.breeds && payload.breeds.id !== 'All'
+      payload.breeds && payload.breeds.id !== 'all'
         ? `breed_ids=${payload.breeds.id}&`
         : '';
     const queryString = `${this.BASE_URL}/images/search?${breedQuery}limit=${payload.limit}&api_key= ${this.API_KEY}`;

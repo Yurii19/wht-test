@@ -27,23 +27,17 @@ export class MainComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<any>();
 
   constructor(private store: Store) {}
+  isLoading: boolean = false;
 
   ngOnInit(): void {
-    this.store.dispatch(new GetCats());
+    this.store.dispatch(new GetCatsWithFilter(this.filters.value));
     this.store.dispatch(new GetBreeds());
 
     this.filters?.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(500))
       .subscribe((filterValues: IFilter) => {
-        this.store.dispatch(
-          new GetCatsWithFilter({
-            limit: filterValues.limit,
-            breeds: {
-              id: filterValues.breeds.id,
-              name: filterValues.breeds.name,
-            },
-          })
-        );
+        console.log(this.filters.value);
+        this.store.dispatch(new GetCatsWithFilter(this.filters.value));
       });
   }
 
