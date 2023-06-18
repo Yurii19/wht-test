@@ -2,12 +2,18 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CatsService } from '../services/cats.service';
 import { map, tap } from 'rxjs/operators';
-import { GetCats, GetBreeds, GetCatsWithFilter } from '../actions/app.actions';
+import {
+  GetCats,
+  GetBreeds,
+  GetCatsWithFilter,
+  SetIsLoading,
+} from '../actions/app.actions';
 import { IBreed } from '../types';
 
 export class CatsStateModel {
   cats: any;
   breeds: IBreed[] = [];
+  isLoading: boolean = false;
 }
 
 @State<CatsStateModel>({
@@ -19,6 +25,7 @@ export class CatsStateModel {
       },
     ],
     breeds: [{ id: 'all', name: 'All' }],
+    isLoading: false,
   },
 })
 @Injectable()
@@ -35,27 +42,34 @@ export class AppState {
     return state.breeds;
   }
 
-  @Action(GetCats)
-  getDataFromState(ctx: StateContext<CatsStateModel>) {
-    return this.catsService.fetchCats().pipe(
-      tap((returnData) => {
-        const state = ctx.getState();
-
-        ctx.setState({
-          ...state,
-          cats: returnData,
-        });
-      })
-    );
+  @Selector()
+  static selectIsLoading(state: CatsStateModel) {
+    return state.isLoading;
   }
+
+  // @Action(GetCats)
+  // getDataFromState(ctx: StateContext<CatsStateModel>) {
+  //   return this.catsService.fetchCats().pipe(
+  //     tap((returnData) => {
+  //       const state = ctx.getState();
+
+  //       ctx.setState({
+  //         ...state,
+  //         cats: returnData,
+  //       });
+  //     })
+  //   );
+  // }
 
   @Action(GetCatsWithFilter)
   updateDataOfState(
     ctx: StateContext<CatsStateModel>,
     { payload }: GetCatsWithFilter
   ) {
+    ctx.dispatch(new SetIsLoading(true))
     return this.catsService.fetchCatsWithFilter(payload).pipe(
       tap((returnData) => {
+        ctx.dispatch(new SetIsLoading(false))
         const state = ctx.getState();
         ctx.setState({
           ...state,
@@ -81,4 +95,14 @@ export class AppState {
       })
     );
   }
+
+  @Action(SetIsLoading)
+  setIsLoading(ctx: StateContext<CatsStateModel>, { payload }: SetIsLoading) {
+    console.log(payload)
+      const state = ctx.getState(); ctx.setState({
+      ...state,
+      isLoading: payload,
+    });
+  }
+  
 }
