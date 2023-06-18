@@ -1,4 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: linear-gradient(to bottom right,  #d4fc79,  #96e6a1);
+}
+.mat-expanded {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.mat-expansion-panel-body {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.mat-expansion-panel {
+  background-color: rgba(255, 255, 255, 0.1);
+}

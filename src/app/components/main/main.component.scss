@@ -1,0 +1,21 @@
+.card {
+  display: inline-block;
+  margin: 10px;
+}
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+.mat-expansion-panel-header-title {
+  opacity: 0.8;
+  .mat-icon {
+    margin-left: 15px;
+  }
+}
+.action {
+  .control {
+    margin-right: 10px;
+  }
+}
