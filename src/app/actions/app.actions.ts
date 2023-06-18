@@ -1,8 +1,5 @@
-import { IFilter } from "../types";
+import { IFilter } from '../types';
 
-export class GetCats {
-  static readonly type = '[Cats] Fetch';
-}
 export class GetBreeds {
   static readonly type = '[Breeds] Fetch';
 }
@@ -11,7 +8,6 @@ export class GetCatsWithFilter {
   constructor(public payload: IFilter) {}
 }
 export class SetIsLoading {
-  
   static readonly type = '[IsLoading] Update';
   constructor(public payload: boolean) {}
 }

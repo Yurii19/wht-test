@@ -3,7 +3,6 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { CatsService } from '../services/cats.service';
 import { map, tap } from 'rxjs/operators';
 import {
-  GetCats,
   GetBreeds,
   GetCatsWithFilter,
   SetIsLoading,
@@ -47,29 +46,15 @@ export class AppState {
     return state.isLoading;
   }
 
-  // @Action(GetCats)
-  // getDataFromState(ctx: StateContext<CatsStateModel>) {
-  //   return this.catsService.fetchCats().pipe(
-  //     tap((returnData) => {
-  //       const state = ctx.getState();
-
-  //       ctx.setState({
-  //         ...state,
-  //         cats: returnData,
-  //       });
-  //     })
-  //   );
-  // }
-
   @Action(GetCatsWithFilter)
   updateDataOfState(
     ctx: StateContext<CatsStateModel>,
     { payload }: GetCatsWithFilter
   ) {
-    ctx.dispatch(new SetIsLoading(true))
+    ctx.dispatch(new SetIsLoading(true));
     return this.catsService.fetchCatsWithFilter(payload).pipe(
       tap((returnData) => {
-        ctx.dispatch(new SetIsLoading(false))
+        ctx.dispatch(new SetIsLoading(false));
         const state = ctx.getState();
         ctx.setState({
           ...state,
@@ -98,11 +83,10 @@ export class AppState {
 
   @Action(SetIsLoading)
   setIsLoading(ctx: StateContext<CatsStateModel>, { payload }: SetIsLoading) {
-    console.log(payload)
-      const state = ctx.getState(); ctx.setState({
+    const state = ctx.getState();
+    ctx.setState({
       ...state,
       isLoading: payload,
     });
   }
-  
 }

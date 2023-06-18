@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { IFilter } from '../types';
 
 @Injectable({
@@ -13,11 +13,6 @@ export class CatsService {
 
   constructor(private http: HttpClient) {}
 
-  fetchCats(): Observable<any> {
-    return this.http.get(
-      this.BASE_URL + '/images/search?limit=10' + '&api_key=' + this.API_KEY
-    );
-  }
   fetchCatsWithFilter(payload: IFilter): Observable<any> {
     const breedQuery =
       payload.breeds && payload.breeds.id !== 'all'

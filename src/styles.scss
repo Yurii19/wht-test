@@ -9,8 +9,14 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   background: linear-gradient(to bottom right, #ff7f50, #ffd700);
   background: linear-gradient(to bottom right, #dcdde1, #487eb0);
+  background: linear-gradient(to bottom right,#ffbf00, white);
 }
 .mat-expanded {
   background-color: rgba(255, 255, 255, 0.1);
-  //     transition: background-color 0.5s ease;
+}
+.mat-expansion-panel-body {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.mat-expansion-panel {
+  background-color: rgba(255, 255, 255, 0.1);
 }

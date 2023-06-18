@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { Observable, Subject, debounceTime, takeUntil } from 'rxjs';
+import { Observable, Subject, debounceTime, filter, takeUntil } from 'rxjs';
 import {
   GetBreeds,
-  GetCats,
   GetCatsWithFilter,
-  SetIsLoading,
 } from 'src/app/actions/app.actions';
 import { AppState } from 'src/app/states/app.state';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -33,20 +31,21 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetCatsWithFilter(this.filters.value));
     this.store.dispatch(new GetBreeds());
-    this.breeds$?.subscribe((d) => this.filters.get('breeds')?.setValue(d[0]));
+    this.breeds$?.subscribe((breeds) =>
+      this.filters.get('breeds')?.setValue(breeds[0])
+    );
 
     this.filters?.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500))
-      .subscribe((filterValues: IFilter) => {
-        console.log(this.filters.value);
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(500),
+        filter((formFilter: IFilter) => formFilter.limit !== null)
+      )
+      .subscribe(() => {
         this.store.dispatch(new GetCatsWithFilter(this.filters.value));
       });
   }
 
-  logFilter() {
-    this.store.dispatch(new SetIsLoading(true));
-    //console.log(this.filters.value)
-  }
   ngOnDestroy(): void {
     this.destroy$.next(void 0);
     this.destroy$.unsubscribe();
