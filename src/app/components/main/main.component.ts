@@ -20,8 +20,8 @@ export class MainComponent implements OnInit, OnDestroy {
   @Select(AppState.selectStateBreeds) breeds$: Observable<any> | undefined;
 
   filters: FormGroup = new FormGroup({
-    limit: new FormControl(10),
-    breeds: new FormControl({ id: 'all', name: 'All' }),
+    limit: new FormControl(2),
+    breeds: new FormControl(),
   });
 
   destroy$: Subject<void> = new Subject<any>();
@@ -32,6 +32,7 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetCatsWithFilter(this.filters.value));
     this.store.dispatch(new GetBreeds());
+   this.breeds$?.subscribe(d => this.filters.get('breeds')?.setValue(d[0]))
 
     this.filters?.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(500))
@@ -41,6 +42,9 @@ export class MainComponent implements OnInit, OnDestroy {
       });
   }
 
+  logFilter(){
+    console.log(this.filters.value)
+  }
   ngOnDestroy(): void {
     this.destroy$.next(void 0);
     this.destroy$.unsubscribe();
